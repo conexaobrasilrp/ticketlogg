@@ -1,0 +1,396 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Log do Ticket - ticket-saphyrp</title>
+<style>
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: radial-gradient(circle at 60% 10%, #39FF1433 0 30%, #00FF99 100%),
+                linear-gradient(180deg, #39FF14 0%, #fff 33%, #000 66%);
+    color: #000;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    min-height: 100vh;
+    position: relative;
+}
+.blur-content {
+    filter: blur(16px) brightness(0.7) grayscale(0.2);
+    pointer-events: none;
+    user-select: none;
+    transition: filter 0.4s;
+}
+.blur-content.unlocked {
+    filter: none;
+    pointer-events: auto;
+    user-select: auto;
+}
+.lock-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.85);
+    display: flex; justify-content: center; align-items: center; z-index: 9999;
+    backdrop-filter: blur(8px) brightness(0.7);
+}
+.lock-box {
+    background: linear-gradient(135deg, #39FF14 80%, #fff 100%);
+    padding: 32px 32px 22px 32px;
+    border-radius: 22px;
+    text-align: center;
+    box-shadow: 0 8px 32px 0 rgba(57,255,20,0.25), 0 2px 8px rgba(0,0,0,0.18);
+    border: 4px solid #39FF14;
+    animation: popLock 0.7s;
+    position: relative;
+    overflow: hidden;
+}
+.lock-box::before {
+    content: "";
+    position: absolute;
+    top: -40px; left: -40px; right: -40px; bottom: -40px;
+    background: repeating-linear-gradient(135deg, #39FF1422 0 10px, #fff0 10px 20px),
+                repeating-linear-gradient(45deg, #00FF9922 0 10px, #fff0 10px 20px);
+    z-index: 0;
+    pointer-events: none;
+    animation: decoLines 3s linear infinite;
+}
+@keyframes decoLines {
+    0% { background-position: 0 0, 0 0; }
+    100% { background-position: 60px 60px, 120px 120px; }
+}
+@keyframes popLock {
+    0% { transform: scale(0.7);}
+    100% { transform: scale(1);}
+}
+.header-img {
+    width: 240px;
+    display: block;
+    margin: 36px auto 16px auto;
+    border-radius: 16px;
+    box-shadow: 0 4px 32px #39FF14cc, 0 2px 8px rgba(0,0,0,0.18);
+    animation: floatFlag 2.5s ease-in-out infinite alternate;
+    border: 4px solid #00FF99;
+    background: #fff;
+}
+@keyframes floatFlag {
+    0% { transform: translateY(0px) rotate(-2deg);}
+    100% { transform: translateY(-18px) rotate(2deg);}
+}
+.animated-bar {
+    width: 100vw;
+    height: 12px;
+    background: repeating-linear-gradient(
+        90deg,
+        #39FF14 0 30px,
+        #00FF99 30px 60px,
+        #000 60px 90px
+    );
+    background-size: 90px 12px;
+    animation: moveBar 2s linear infinite;
+    margin-bottom: 12px;
+    filter: drop-shadow(0 0 12px #39FF14cc);
+}
+@keyframes moveBar {
+    0% { background-position-x: 0; }
+    100% { background-position-x: 90px; }
+}
+.sparkle {
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    pointer-events: none;
+    z-index: 1000;
+    animation: sparkleMove 1.5s linear infinite;
+}
+@keyframes sparkleMove {
+    0% { opacity: 0; transform: scale(0.5);}
+    30% { opacity: 1; transform: scale(1.2);}
+    70% { opacity: 1; transform: scale(1);}
+    100% { opacity: 0; transform: scale(0.5);}
+}
+.container {
+    max-width: 900px;
+    margin: 36px auto 36px auto;
+    background: rgba(255,255,255,0.99);
+    border: 5px solid #39FF14;
+    padding: 36px 36px 22px 36px;
+    border-radius: 22px;
+    box-shadow: 0 8px 32px 0 rgba(57,255,20,0.18), 0 2px 8px rgba(0,0,0,0.18);
+    position: relative;
+    overflow: hidden;
+}
+.container::before {
+    content: "";
+    position: absolute;
+    top: -24px; left: -24px; right: -24px; bottom: -24px;
+    background: repeating-linear-gradient(135deg, #39FF1422 0 10px, #fff0 10px 20px),
+                repeating-linear-gradient(45deg, #00FF9922 0 10px, #fff0 10px 20px);
+    z-index: 0;
+    pointer-events: none;
+    animation: decoLines 3s linear infinite;
+}
+h2 {
+    text-align: center;
+    color: #39FF14;
+    margin-bottom: 22px;
+    text-shadow: 2px 2px 12px #00FF99, 0 0 12px #39FF14;
+    animation: pulseTitle 2s infinite alternate;
+    font-size: 2.3em;
+    letter-spacing: 1.5px;
+    font-family: 'Segoe UI Black', Arial, sans-serif;
+}
+@keyframes pulseTitle {
+    0% { text-shadow: 2px 2px 12px #00FF99, 0 0 12px #39FF14; }
+    100% { text-shadow: 4px 4px 24px #39FF14, 0 0 24px #00FF99; }
+}
+.log-entry {
+    margin-bottom: 14px;
+    padding: 14px;
+    border-radius: 9px;
+    background: linear-gradient(90deg, #39FF14 80%, #fff 100%);
+    border-left: 10px solid #00FF99;
+    color: #000;
+    animation: fadeInEntry 0.7s;
+    box-shadow: 0 2px 12px #39FF1433;
+    position: relative;
+    z-index: 1;
+    font-size: 1.08em;
+}
+.log-entry::after {
+    content: "";
+    display: block;
+    position: absolute;
+    right: 10px; top: 10px; width: 16px; height: 16px;
+    background: radial-gradient(circle, #39FF14 60%, #00FF99 100%);
+    border-radius: 50%;
+    opacity: 0.18;
+}
+@keyframes fadeInEntry {
+    from { opacity: 0; transform: translateX(-30px);}
+    to { opacity: 1; transform: translateX(0);}
+}
+.timestamp {
+    font-size: 1em;
+    color: #39FF14;
+    margin-right: 10px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+}
+.author {
+    font-weight: bold;
+    color: #000;
+    background: #39FF14;
+    padding: 3px 10px;
+    border-radius: 5px;
+    border: 1.5px solid #00FF99;
+    margin-right: 6px;
+    font-size: 1.05em;
+}
+.content {
+    margin-top: 4px;
+    color: #222;
+    font-size: 1.12em;
+}
+.button-link {
+    display: inline-block;
+    margin: 12px 0;
+    padding: 14px 32px;
+    background: linear-gradient(90deg, #39FF14 70%, #00FF99 100%);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 9px;
+    text-align: center;
+    font-weight: bold;
+    box-shadow: 0 2px 16px #39FF1455;
+    transition: background 0.2s, transform 0.2s;
+    animation: pulseBtn 1.5s infinite alternate;
+    font-size: 1.18em;
+    letter-spacing: 1.2px;
+    border: 2.5px solid #00FF99;
+}
+.button-link:hover {
+    background: linear-gradient(90deg, #00FF99 70%, #39FF14 100%);
+    transform: scale(1.09) rotate(-2deg);
+}
+@keyframes pulseBtn {
+    0% { box-shadow: 0 2px 8px rgba(57,255,20,0.12);}
+    100% { box-shadow: 0 4px 24px #39FF14;}
+}
+.footer {
+    text-align: center;
+    margin-top: 32px;
+    font-size: 1.18em;
+    color: #00FF99;
+    letter-spacing: 2px;
+    animation: footerGlow 2s infinite alternate;
+    font-weight: bold;
+    text-shadow: 0 0 12px #39FF14;
+}
+@keyframes footerGlow {
+    0% { text-shadow: 0 0 0 #39FF14;}
+    100% { text-shadow: 0 0 18px #39FF14;}
+}
+.lock-title {
+    font-size: 1.9em;
+    margin-bottom: 18px;
+    color: #39FF14;
+    font-weight: bold;
+    animation: pulseTitle 2s infinite alternate;
+    letter-spacing: 1.2px;
+}
+.lock-input {
+    width: 100%;
+    padding: 14px;
+    margin: 14px 0;
+    border: 2.5px solid #39FF14;
+    border-radius: 9px;
+    background: #fff;
+    color: #000;
+    font-size: 1.15em;
+}
+.lock-btn {
+    padding: 14px 32px;
+    background: linear-gradient(90deg, #39FF14 70%, #00FF99 100%);
+    color: #fff;
+    border: none;
+    border-radius: 9px;
+    cursor: pointer;
+    font-size: 1.15em;
+    font-weight: bold;
+    transition: background 0.2s;
+    border: 2.5px solid #39FF14;
+    margin-top: 10px;
+}
+.lock-btn:hover {
+    background: linear-gradient(90deg, #00FF99 70%, #39FF14 100%);
+}
+.lock-err {
+    color: #39FF14;
+    margin-top: 12px;
+    display: none;
+    font-weight: bold;
+    font-size: 1.08em;
+}
+.lock-brand {
+    margin-top: 28px;
+    text-align: center;
+    font-size: 1.15em;
+    color: #39FF14;
+    font-weight: bold;
+    letter-spacing: 1.2px;
+}
+.lock-brand img {
+    width: 120px;
+    margin-bottom: 12px;
+    animation: floatFlag 2.5s ease-in-out infinite alternate;
+    border-radius: 10px;
+    border: 2.5px solid #39FF14;
+    box-shadow: 0 2px 12px #39FF1455;
+}
+.motivo-box {
+    background: linear-gradient(90deg, #39FF14 80%, #00FF99 100%);
+    border-radius: 14px;
+    padding: 26px 32px;
+    margin-bottom: 28px;
+    border: 2.5px solid #00FF99;
+    color: #fff;
+    animation: fadeInEntry 1.2s;
+    box-shadow: 0 2px 16px #39FF1455;
+    font-size: 1.13em;
+    position: relative;
+    z-index: 1;
+}
+.motivo-title {
+    font-size: 1.22em;
+    color: #00FF99;
+    font-weight: bold;
+    letter-spacing: 1.2px;
+}
+.motivo-fechado {
+    color: #fff;
+}
+.motivo-autor {
+    color: #00FF99;
+    font-size: 1.05em;
+    font-weight: bold;
+}
+::-webkit-scrollbar {
+    width: 12px;
+    background: #00FF99;
+}
+::-webkit-scrollbar-thumb {
+    background: #39FF14;
+    border-radius: 10px;
+}
+</style>
+</head>
+<body>
+<div class="animated-bar"></div>
+<img class="header-img" src="./assets/egypt.gif" alt="Bandeira do Brasil">
+<div class="animated-bar"></div>
+<div class="lock-overlay" id="lockOverlay">
+  <div class="lock-box">
+    <div class="lock-title">🔒 Log Protegido</div>
+    <div style="margin-bottom:18px;color:#39FF14;opacity:0.92;font-size:1.13em;">
+      Bem-vindo!<br>
+      Digite a senha para visualizar o log do seu ticket.
+    </div>
+    <input type="password" id="senhaInput" class="lock-input" placeholder="Senha">
+    <button class="lock-btn" onclick="verificarSenha()">Acessar Log</button>
+    <div id="lockErr" class="lock-err"></div>
+    <div class="lock-brand">
+      <img src="./assets/red_eyes.gif" alt="Brasil">
+      <div>Sistema de Tickets</div>
+    </div>
+  </div>
+</div>
+<div id="blurContent" class="blur-content">
+<div class="container">
+  <h2>Log do Ticket: ticket-saphyrp</h2>
+  <a class="button-link" href="https://discord.com/channels/1402114739592630405/1402114740221644855" target="_blank">Abrir Ticket no Discord</a>
+  <hr>
+  <div>
+<div class="log-entry"><span class="timestamp">[07/08/2025, 23:52:04]</span> <span class="author">CONEXÃO BRASIL TICKET#6274:</span> <span class="content">||@everyone||</span></div>
+<div class="log-entry"><span class="timestamp">[07/08/2025, 23:52:04]</span> <span class="author">CONEXÃO BRASIL TICKET#6274:</span> <span class="content"></span></div>
+<div class="log-entry"><span class="timestamp">[07/08/2025, 23:52:06]</span> <span class="author">CONEXÃO BRASIL TICKET#6274:</span> <span class="content">Escolha uma opção para finalizar o ticket:</span></div>
+
+<hr>
+<div class="motivo-box">
+    <span class="motivo-title">Motivo do fechamento:</span><br>
+    <span class="motivo-fechado">tdfesd</span>
+    <br><span class="motivo-autor">Fechado por: saphy_rp</span>
+</div>
+  </div>
+  <div class="footer">&copy; 2025 Sistema de Tickets - Conexão Brasil</div>
+</div>
+</div>
+<script>
+const senhaCorreta = "bgxhcj4p";
+function verificarSenha() {
+  const input = document.getElementById('senhaInput').value;
+  if (input === senhaCorreta) {
+    document.getElementById('lockOverlay').style.display = 'none';
+    document.getElementById('blurContent').classList.add('unlocked');
+  } else {
+    document.getElementById('lockErr').innerText = "Senha incorreta!";
+  }
+}
+document.getElementById('senhaInput').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') verificarSenha();
+});
+
+// Efeito sparkle animado
+function createSparkle() {
+    const sparkle = document.createElement('div');
+    sparkle.className = 'sparkle';
+    sparkle.style.left = Math.random() * (window.innerWidth - 30) + 'px';
+    sparkle.style.top = (Math.random() * 120 + 40) + 'px';
+    sparkle.innerHTML = '<svg width="18" height="18" viewBox="0 0 18 18"><polygon points="9,0 11,7 18,9 11,11 9,18 7,11 0,9 7,7" fill="#ffd600" opacity="0.7"/></svg>';
+    document.body.appendChild(sparkle);
+    setTimeout(() => sparkle.remove(), 1500);
+}
+setInterval(createSparkle, 900);
+</script>
+</body>
+</html>
