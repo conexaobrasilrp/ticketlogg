@@ -1,0 +1,396 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Log do Ticket - ticket-denuncia-saphyrp</title>
+<style>
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: radial-gradient(circle at 60% 10%, #b7f5c6 0 30%, #a2e6b1 100%),
+                linear-gradient(180deg, #b7f5c6 0%, #fff 33%, #e0f7ea 66%);
+    color: #1a3d1a;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    min-height: 100vh;
+    position: relative;
+}
+.blur-content {
+    filter: blur(16px) brightness(0.7) grayscale(0.2);
+    pointer-events: none;
+    user-select: none;
+    transition: filter 0.4s;
+}
+.blur-content.unlocked {
+    filter: none;
+    pointer-events: auto;
+    user-select: auto;
+}
+.lock-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.85);
+    display: flex; justify-content: center; align-items: center; z-index: 9999;
+    backdrop-filter: blur(8px) brightness(0.7);
+}
+.lock-box {
+    background: linear-gradient(135deg, #b7f5c6 80%, #fff 100%);
+    padding: 32px 32px 22px 32px;
+    border-radius: 22px;
+    text-align: center;
+    box-shadow: 0 8px 32px 0 rgba(57,255,20,0.10), 0 2px 8px rgba(0,0,0,0.10);
+    border: 4px solid #7ecb8f;
+    animation: popLock 0.7s;
+    position: relative;
+    overflow: hidden;
+}
+.lock-box::before {
+    content: "";
+    position: absolute;
+    top: -40px; left: -40px; right: -40px; bottom: -40px;
+    background: repeating-linear-gradient(135deg, #b7f5c633 0 10px, #fff0 10px 20px),
+                repeating-linear-gradient(45deg, #a2e6b133 0 10px, #fff0 10px 20px);
+    z-index: 0;
+    pointer-events: none;
+    animation: decoLines 3s linear infinite;
+}
+@keyframes decoLines {
+    0% { background-position: 0 0, 0 0; }
+    100% { background-position: 60px 60px, 120px 120px; }
+}
+@keyframes popLock {
+    0% { transform: scale(0.7);}
+    100% { transform: scale(1);}
+}
+.header-img {
+    width: 240px;
+    display: block;
+    margin: 36px auto 16px auto;
+    border-radius: 16px;
+    box-shadow: 0 4px 32px #b7f5c6cc, 0 2px 8px rgba(0,0,0,0.10);
+    animation: floatFlag 2.5s ease-in-out infinite alternate;
+    border: 4px solid #7ecb8f;
+    background: #fff;
+}
+@keyframes floatFlag {
+    0% { transform: translateY(0px) rotate(-2deg);}
+    100% { transform: translateY(-18px) rotate(2deg);}
+}
+.animated-bar {
+    width: 100vw;
+    height: 12px;
+    background: repeating-linear-gradient(
+        90deg,
+        #b7f5c6 0 30px,
+        #a2e6b1 30px 60px,
+        #e0f7ea 60px 90px
+    );
+    background-size: 90px 12px;
+    animation: moveBar 2s linear infinite;
+    margin-bottom: 12px;
+    filter: drop-shadow(0 0 12px #b7f5c655);
+}
+@keyframes moveBar {
+    0% { background-position-x: 0; }
+    100% { background-position-x: 90px; }
+}
+.sparkle {
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    pointer-events: none;
+    z-index: 1000;
+    animation: sparkleMove 1.5s linear infinite;
+}
+@keyframes sparkleMove {
+    0% { opacity: 0; transform: scale(0.5);}
+    30% { opacity: 1; transform: scale(1.2);}
+    70% { opacity: 1; transform: scale(1);}
+    100% { opacity: 0; transform: scale(0.5);}
+}
+.container {
+    max-width: 900px;
+    margin: 36px auto 36px auto;
+    background: rgba(255,255,255,0.99);
+    border: 5px solid #7ecb8f;
+    padding: 36px 36px 22px 36px;
+    border-radius: 22px;
+    box-shadow: 0 8px 32px 0 rgba(57,255,20,0.10), 0 2px 8px rgba(0,0,0,0.10);
+    position: relative;
+    overflow: hidden;
+}
+.container::before {
+    content: "";
+    position: absolute;
+    top: -24px; left: -24px; right: -24px; bottom: -24px;
+    background: repeating-linear-gradient(135deg, #b7f5c633 0 10px, #fff0 10px 20px),
+                repeating-linear-gradient(45deg, #a2e6b133 0 10px, #fff0 10px 20px);
+    z-index: 0;
+    pointer-events: none;
+    animation: decoLines 3s linear infinite;
+}
+h2 {
+    text-align: center;
+    color: #218c3a;
+    margin-bottom: 22px;
+    text-shadow: 2px 2px 12px #b7f5c6, 0 0 12px #7ecb8f;
+    animation: pulseTitle 2s infinite alternate;
+    font-size: 2.3em;
+    letter-spacing: 1.5px;
+    font-family: 'Segoe UI Black', Arial, sans-serif;
+}
+@keyframes pulseTitle {
+    0% { text-shadow: 2px 2px 12px #b7f5c6, 0 0 12px #7ecb8f; }
+    100% { text-shadow: 4px 4px 24px #7ecb8f, 0 0 24px #b7f5c6; }
+}
+.log-entry {
+    margin-bottom: 14px;
+    padding: 14px;
+    border-radius: 9px;
+    background: linear-gradient(90deg, #b7f5c6 80%, #fff 100%);
+    border-left: 10px solid #7ecb8f;
+    color: #1a3d1a;
+    animation: fadeInEntry 0.7s;
+    box-shadow: 0 2px 12px #b7f5c633;
+    position: relative;
+    z-index: 1;
+    font-size: 1.08em;
+}
+.log-entry::after {
+    content: "";
+    display: block;
+    position: absolute;
+    right: 10px; top: 10px; width: 16px; height: 16px;
+    background: radial-gradient(circle, #b7f5c6 60%, #a2e6b1 100%);
+    border-radius: 50%;
+    opacity: 0.10;
+}
+@keyframes fadeInEntry {
+    from { opacity: 0; transform: translateX(-30px);}
+    to { opacity: 1; transform: translateX(0);}
+}
+.timestamp {
+    font-size: 1em;
+    color: #218c3a;
+    margin-right: 10px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+}
+.author {
+    font-weight: bold;
+    color: #fff;
+    background: #218c3a;
+    padding: 3px 10px;
+    border-radius: 5px;
+    border: 1.5px solid #7ecb8f;
+    margin-right: 6px;
+    font-size: 1.05em;
+}
+.content {
+    margin-top: 4px;
+    color: #1a3d1a;
+    font-size: 1.12em;
+}
+.button-link {
+    display: inline-block;
+    margin: 12px 0;
+    padding: 14px 32px;
+    background: linear-gradient(90deg, #7ecb8f 70%, #b7f5c6 100%);
+    color: #1a3d1a;
+    text-decoration: none;
+    border-radius: 9px;
+    text-align: center;
+    font-weight: bold;
+    box-shadow: 0 2px 16px #b7f5c655;
+    transition: background 0.2s, transform 0.2s;
+    animation: pulseBtn 1.5s infinite alternate;
+    font-size: 1.18em;
+    letter-spacing: 1.2px;
+    border: 2.5px solid #7ecb8f;
+}
+.button-link:hover {
+    background: linear-gradient(90deg, #b7f5c6 70%, #7ecb8f 100%);
+    transform: scale(1.09) rotate(-2deg);
+}
+@keyframes pulseBtn {
+    0% { box-shadow: 0 2px 8px rgba(57,255,20,0.08);}
+    100% { box-shadow: 0 4px 24px #b7f5c6;}
+}
+.footer {
+    text-align: center;
+    margin-top: 32px;
+    font-size: 1.18em;
+    color: #218c3a;
+    letter-spacing: 2px;
+    animation: footerGlow 2s infinite alternate;
+    font-weight: bold;
+    text-shadow: 0 0 12px #b7f5c6;
+}
+@keyframes footerGlow {
+    0% { text-shadow: 0 0 0 #b7f5c6;}
+    100% { text-shadow: 0 0 18px #b7f5c6;}
+}
+.lock-title {
+    font-size: 1.9em;
+    margin-bottom: 18px;
+    color: #218c3a;
+    font-weight: bold;
+    animation: pulseTitle 2s infinite alternate;
+    letter-spacing: 1.2px;
+}
+.lock-input {
+    width: 100%;
+    padding: 14px;
+    margin: 14px 0;
+    border: 2.5px solid #7ecb8f;
+    border-radius: 9px;
+    background: #fff;
+    color: #1a3d1a;
+    font-size: 1.15em;
+}
+.lock-btn {
+    padding: 14px 32px;
+    background: linear-gradient(90deg, #7ecb8f 70%, #b7f5c6 100%);
+    color: #1a3d1a;
+    border: none;
+    border-radius: 9px;
+    cursor: pointer;
+    font-size: 1.15em;
+    font-weight: bold;
+    transition: background 0.2s;
+    border: 2.5px solid #7ecb8f;
+    margin-top: 10px;
+}
+.lock-btn:hover {
+    background: linear-gradient(90deg, #b7f5c6 70%, #7ecb8f 100%);
+}
+.lock-err {
+    color: #218c3a;
+    margin-top: 12px;
+    display: none;
+    font-weight: bold;
+    font-size: 1.08em;
+}
+.lock-brand {
+    margin-top: 28px;
+    text-align: center;
+    font-size: 1.15em;
+    color: #218c3a;
+    font-weight: bold;
+    letter-spacing: 1.2px;
+}
+.lock-brand img {
+    width: 120px;
+    margin-bottom: 12px;
+    animation: floatFlag 2.5s ease-in-out infinite alternate;
+    border-radius: 10px;
+    border: 2.5px solid #7ecb8f;
+    box-shadow: 0 2px 12px #b7f5c655;
+}
+.motivo-box {
+    background: linear-gradient(90deg, #b7f5c6 80%, #a2e6b1 100%);
+    border-radius: 14px;
+    padding: 26px 32px;
+    margin-bottom: 28px;
+    border: 2.5px solid #7ecb8f;
+    color: #1a3d1a;
+    animation: fadeInEntry 1.2s;
+    box-shadow: 0 2px 16px #b7f5c655;
+    font-size: 1.13em;
+    position: relative;
+    z-index: 1;
+}
+.motivo-title {
+    font-size: 1.22em;
+    color: #218c3a;
+    font-weight: bold;
+    letter-spacing: 1.2px;
+}
+.motivo-fechado {
+    color: #1a3d1a;
+}
+.motivo-autor {
+    color: #218c3a;
+    font-size: 1.05em;
+    font-weight: bold;
+}
+::-webkit-scrollbar {
+    width: 12px;
+    background: #a2e6b1;
+}
+::-webkit-scrollbar-thumb {
+    background: #7ecb8f;
+    border-radius: 10px;
+}
+</style>
+</head>
+<body>
+<div class="animated-bar"></div>
+<img class="header-img" src="./assets/egypt.gif" alt="Bandeira do Brasil">
+<div class="animated-bar"></div>
+<div class="lock-overlay" id="lockOverlay">
+  <div class="lock-box">
+    <div class="lock-title">🔒 Log Protegido</div>
+    <div style="margin-bottom:18px;color:#39FF14;opacity:0.92;font-size:1.13em;">
+      Bem-vindo!<br>
+      Digite a senha para visualizar o log do seu ticket.
+    </div>
+    <input type="password" id="senhaInput" class="lock-input" placeholder="Senha">
+    <button class="lock-btn" onclick="verificarSenha()">Acessar Log</button>
+    <div id="lockErr" class="lock-err"></div>
+    <div class="lock-brand">
+      <img src="./assets/red_eyes.gif" alt="Brasil">
+      <div>Sistema de Tickets</div>
+    </div>
+  </div>
+</div>
+<div id="blurContent" class="blur-content">
+<div class="container">
+  <h2>Log do Ticket: ticket-denuncia-saphyrp</h2>
+  <a class="button-link" href="https://discord.com/channels/1402114739592630405/1402470968911204433" target="_blank">Abrir Ticket no Discord</a>
+  <hr>
+  <div>
+<div class="log-entry"><span class="timestamp">[11/08/2025, 11:45:04]</span> <span class="author">CONEXÃO BRASIL TICKET#6274:</span> <span class="content">||@everyone||</span></div>
+<div class="log-entry"><span class="timestamp">[11/08/2025, 11:45:05]</span> <span class="author">CONEXÃO BRASIL TICKET#6274:</span> <span class="content"></span></div>
+<div class="log-entry"><span class="timestamp">[11/08/2025, 11:45:07]</span> <span class="author">CONEXÃO BRASIL TICKET#6274:</span> <span class="content">Escolha uma opção para finalizar o ticket:</span></div>
+
+<hr>
+<div class="motivo-box">
+    <span class="motivo-title">Motivo do fechamento:</span><br>
+    <span class="motivo-fechado">das</span>
+    <br><span class="motivo-autor">Fechado por: saphy_rp</span>
+</div>
+  </div>
+  <div class="footer">&copy; 2025 Sistema de Tickets - Conexão Brasil</div>
+</div>
+</div>
+<script>
+const senhaCorreta = "rsUJNjhp";
+function verificarSenha() {
+  const input = document.getElementById('senhaInput').value;
+  if (input === senhaCorreta) {
+    document.getElementById('lockOverlay').style.display = 'none';
+    document.getElementById('blurContent').classList.add('unlocked');
+  } else {
+    document.getElementById('lockErr').innerText = "Senha incorreta!";
+  }
+}
+document.getElementById('senhaInput').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') verificarSenha();
+});
+
+// Efeito sparkle animado
+function createSparkle() {
+    const sparkle = document.createElement('div');
+    sparkle.className = 'sparkle';
+    sparkle.style.left = Math.random() * (window.innerWidth - 30) + 'px';
+    sparkle.style.top = (Math.random() * 120 + 40) + 'px';
+    sparkle.innerHTML = '<svg width="18" height="18" viewBox="0 0 18 18"><polygon points="9,0 11,7 18,9 11,11 9,18 7,11 0,9 7,7" fill="#ffd600" opacity="0.7"/></svg>';
+    document.body.appendChild(sparkle);
+    setTimeout(() => sparkle.remove(), 1500);
+}
+setInterval(createSparkle, 900);
+</script>
+</body>
+</html>
